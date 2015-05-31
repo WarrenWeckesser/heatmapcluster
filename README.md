@@ -9,8 +9,8 @@ with dendrograms plotted along with the heatmap, such as the following:
 This is prototype-quality software.  The documentation is sparse, and the API
 will likely change.
 
-To use the package, numpy and scipy must be installed.  Plots are generated
-with matplotlib (http://matplotlib.org/).
+Plots are generated with matplotlib (http://matplotlib.org/).
+To use the package, numpy, scipy and matplotlib must be installed.
 
 Example
 -------

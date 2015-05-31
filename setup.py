@@ -39,4 +39,5 @@ setup(name='heatmapcluster',
       install_requires=[
           'numpy >= 1.6.0',
           'scipy',
+          'matplotlib',
       ])
