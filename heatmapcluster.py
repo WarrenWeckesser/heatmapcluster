@@ -26,7 +26,7 @@ def heatmapcluster(x, row_labels, col_labels,
                    colorbar_pad=0.5,
                    top_dendrogram=True,
                    xlabel_rotation=-45,
-                   ylabel_rotation=-45,
+                   ylabel_rotation=0,
                    figsize=(12, 8)):
     """
     Use matplotlib to generate a heatmap with row and column dendrograms.
