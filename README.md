@@ -56,8 +56,10 @@ shown above.
 
     h = heatmapcluster(x, row_labels, col_labels,
                        num_row_clusters=3, num_col_clusters=0,
+		       colorbar_pad=0.5,
                        label_fontsize=6,
                        xlabel_rotation=-75,
+		       ylabel_rotation=-75,
                        cmap=plt.cm.coolwarm,
                        show_colorbar=True,
                        top_dendrogram=True)
