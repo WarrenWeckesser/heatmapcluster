@@ -23,8 +23,10 @@ class HeatmapClusterResults(object):
 def heatmapcluster(x, row_labels, col_labels,
                    num_row_clusters=None, num_col_clusters=None,
                    label_fontsize=8, cmap=None, show_colorbar=True,
+                   colorbar_pad=0.5,
                    top_dendrogram=True,
                    xlabel_rotation=-45,
+                   ylabel_rotation=-45,
                    figsize=(12, 8)):
     """
     Use matplotlib to generate a heatmap with row and column dendrograms.
@@ -50,12 +52,18 @@ def heatmapcluster(x, row_labels, col_labels,
         The color map to use in the heatmap.
     show_colorbar : bool
         If True (the default), show a colorbar for the heatmap on the right.
+    colorbar_pad: float
+        Float to determine padding of colorbar. Useful if Y axis labels are
+        long.
     top_dendrogram : bool
         If True (the default), compute a column dendrogram and display it
         on top of the heatmap.  (A row dendrogram is always computed and
         shown on the right of the heatmap.)
     xlabel_rotation : int
         Rotation angle (in degrees) of the labels along the x axis of
+        the heatmap.
+    ylabel_rotation : int
+        Rotation angle (in degrees) of the labels along the y axis of
         the heatmap.
     figsize : tuple of int
         Matplotlib figure size.
@@ -92,7 +100,7 @@ def heatmapcluster(x, row_labels, col_labels,
         ax_dendtop = None
     if show_colorbar:
         # Add an axis on the right for the colorbar.
-        ax_colorbar = divider.append_axes("right", 0.2, pad=0.5)
+        ax_colorbar = divider.append_axes("right", 0.2, pad=colorbar_pad)
     else:
         ax_colorbar = None
 
@@ -175,6 +183,7 @@ def heatmapcluster(x, row_labels, col_labels,
     plt.setp(xlbls, fontsize=label_fontsize)
 
     ylbls = ax_heatmap.yaxis.get_ticklabels()
+    plt.setp(ylbls, rotation=ylabel_rotation)
     plt.setp(ylbls, fontsize=label_fontsize)
 
     if show_colorbar:
