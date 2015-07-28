@@ -108,23 +108,21 @@ def heatmapcluster(x, row_labels, col_labels,
     if top_dendrogram:
         ax_dendtop.set_frame_on(False)
 
-    if num_row_clusters is not None:
-        if num_row_clusters <= 1:
-            left_threshold = -1
-        else:
-            left_threshold = 0.5*(lnk0[1-num_row_clusters, 2] +
-                                  lnk0[-num_row_clusters, 2])
+    if num_row_clusters is None or num_row_clusters <= 1:
+        left_threshold = -1
+    else:
+        left_threshold = 0.5*(lnk0[1-num_row_clusters, 2] +
+                              lnk0[-num_row_clusters, 2])
     dg0 = dendrogram(lnk0, ax=ax_dendleft, orientation='right',
                      color_threshold=left_threshold,
                      no_labels=True)
 
     if top_dendrogram:
-        if num_col_clusters is not None:
-            if num_col_clusters <= 1:
-                top_threshold = -1
-            else:
-                top_threshold = 0.5*(lnk1[1-num_col_clusters, 2] +
-                                     lnk1[-num_col_clusters, 2])
+        if num_col_clusters is None or num_col_clusters <= 1:
+            top_threshold = -1
+        else:
+            top_threshold = 0.5*(lnk1[1-num_col_clusters, 2] +
+                                 lnk1[-num_col_clusters, 2])
         dg1 = dendrogram(lnk1, ax=ax_dendtop,
                          color_threshold=top_threshold,
                          no_labels=True)
