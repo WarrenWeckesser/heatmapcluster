@@ -37,7 +37,7 @@ def heatmapcluster(x, row_labels, col_labels,
         The array holds m "observations", where each observation is of n
         variables or features.
     row_labels : list of strings
-        The labeles of the rows of x.
+        The labels of the rows of x.
     col_labels : list of strings
         The labels of the columns of x.
     num_row_clusters : int
