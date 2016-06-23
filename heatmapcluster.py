@@ -4,6 +4,7 @@
 from __future__ import division
 
 import numpy as np
+import scipy
 from scipy.spatial.distance import pdist
 from scipy.cluster.hierarchy import linkage, dendrogram
 import matplotlib.pyplot as plt
@@ -11,6 +12,9 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 
 __version__ = "0.0.1"
+
+
+scipy_version = tuple(int(v) for v in scipy.__version__.split('.')[:2])
 
 
 class HeatmapClusterResults(object):
@@ -113,7 +117,12 @@ def heatmapcluster(x, row_labels, col_labels,
     else:
         left_threshold = 0.5*(lnk0[1-num_row_clusters, 2] +
                               lnk0[-num_row_clusters, 2])
-    dg0 = dendrogram(lnk0, ax=ax_dendleft, orientation='right',
+    if scipy_version < (0, 17):
+        # Work around bug in older scipy, where the orientation was backwards.
+        side_orientation = 'right'
+    else:
+        side_orientation = 'left'
+    dg0 = dendrogram(lnk0, ax=ax_dendleft, orientation=side_orientation,
                      color_threshold=left_threshold,
                      no_labels=True)
 
