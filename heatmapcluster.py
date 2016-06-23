@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 
-__version__ = "0.0.1"
+__version__ = "0.0.2.dev0"
 
 
 scipy_version = tuple(int(v) for v in scipy.__version__.split('.')[:2])
