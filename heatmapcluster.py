@@ -172,10 +172,10 @@ def heatmapcluster(x, row_labels, col_labels,
 
     # Make the dendrogram labels invisible.
     _plt.setp(ax_dendleft.get_yticklabels() + ax_dendleft.get_xticklabels(),
-             visible=False)
+              visible=False)
     if top_dendrogram:
         _plt.setp(ax_dendtop.get_xticklabels() + ax_dendtop.get_yticklabels(),
-                 visible=False)
+                  visible=False)
 
     # Hide all tick lines.
     lines = (ax_heatmap.xaxis.get_ticklines() +
