@@ -3,7 +3,8 @@
 
 from __future__ import print_function
 
-from distutils.core import setup
+from setuptools import setup
+from os import path
 
 
 def get_heatmapcluster_version():
@@ -23,21 +24,27 @@ def get_heatmapcluster_version():
             if len(s) == 2 and s[0] == "__version__":
                 return s[1][1:-1]
 
+# Get the long description from README.rst.
+_here = path.abspath(path.dirname(__file__))
+with open(path.join(_here, 'README.rst')) as f:
+    _long_description = f.read()
 
 setup(name='heatmapcluster',
       version=get_heatmapcluster_version(),
       author="Warren Weckesser",
       description="Heatmap cluster dendrogram plotter.",
+      long_description=_long_description,
       license="BSD",
       classifiers=[
           "License :: OSI Approved :: BSD License",
           "Intended Audience :: Developers",
           "Operating System :: OS Independent",
-          "Programming Language :: Python, Cython",
+          "Programming Language :: Python",
       ],
       py_modules=['heatmapcluster'],
       install_requires=[
           'numpy >= 1.6.0',
           'scipy',
           'matplotlib',
-      ])
+      ],
+      keywords="heatmap cluster scipy plot")
