@@ -1,23 +1,25 @@
-# Copyright (c) 2015, Warren Weckesser.  All rights reserved.
+# Copyright (c) 2017, Warren Weckesser.  All rights reserved.
 # This software is licensed according to the "BSD 2-clause" license.
 
-from __future__ import division
+from __future__ import division as _division
 
-import numpy as np
-import scipy
-from scipy.spatial.distance import pdist
-from scipy.cluster.hierarchy import linkage, dendrogram
-import matplotlib.pyplot as plt
-from mpl_toolkits.axes_grid1 import make_axes_locatable
-
-
-__version__ = "0.0.2.dev0"
+import numpy as _np
+from scipy import __version__ as _scipy__version__
+from scipy.spatial import distance as _distance
+import scipy.cluster.hierarchy as _hierarchy
+import matplotlib.pyplot as _plt
+from mpl_toolkits import axes_grid1 as _axes_grid1
 
 
-scipy_version = tuple(int(v) for v in scipy.__version__.split('.')[:2])
+__version__ = "0.1.0.dev0"
+
+_scipy_version = tuple(int(v) for v in _scipy__version__.split('.')[:2])
 
 
 class HeatmapClusterResults(object):
+    """
+    Instances of this class are returned by the function heatmapcluster().
+    """
 
     def __init__(self, **kwds):
         for name, value in kwds.items():
@@ -80,21 +82,21 @@ def heatmapcluster(x, row_labels, col_labels,
         plot.
 
     """
-    lnk0 = linkage(pdist(x))
+    lnk0 = _hierarchy.linkage(_distance.pdist(x))
     if top_dendrogram:
-        lnk1 = linkage(pdist(x.T))
+        lnk1 = _hierarchy.linkage(_distance.pdist(x.T))
     else:
         lnk1 = None
 
     if cmap is None:
-        cmap = plt.rcParams['image.cmap']
+        cmap = _plt.rcParams['image.cmap']
 
-    fig, ax_heatmap = plt.subplots(figsize=figsize)
+    fig, ax_heatmap = _plt.subplots(figsize=figsize)
     ax_heatmap.yaxis.tick_right()
 
     # Create new axes on the left and on the top of the current axes.
     # These will hold the dendrograms.
-    divider = make_axes_locatable(ax_heatmap)
+    divider = _axes_grid1.make_axes_locatable(ax_heatmap)
     ax_dendleft = divider.append_axes("left", 1.2, pad=0.0,
                                       sharey=ax_heatmap)
     if top_dendrogram:
@@ -117,14 +119,15 @@ def heatmapcluster(x, row_labels, col_labels,
     else:
         left_threshold = 0.5*(lnk0[1-num_row_clusters, 2] +
                               lnk0[-num_row_clusters, 2])
-    if scipy_version < (0, 17):
+    if _scipy_version < (0, 17):
         # Work around bug in older scipy, where the orientation was backwards.
         side_orientation = 'right'
     else:
         side_orientation = 'left'
-    dg0 = dendrogram(lnk0, ax=ax_dendleft, orientation=side_orientation,
-                     color_threshold=left_threshold,
-                     no_labels=True)
+    dg0 = _hierarchy.dendrogram(lnk0, ax=ax_dendleft,
+                                orientation=side_orientation,
+                                color_threshold=left_threshold,
+                                no_labels=True)
 
     if top_dendrogram:
         if num_col_clusters is None or num_col_clusters <= 1:
@@ -132,9 +135,9 @@ def heatmapcluster(x, row_labels, col_labels,
         else:
             top_threshold = 0.5*(lnk1[1-num_col_clusters, 2] +
                                  lnk1[-num_col_clusters, 2])
-        dg1 = dendrogram(lnk1, ax=ax_dendtop,
-                         color_threshold=top_threshold,
-                         no_labels=True)
+        dg1 = _hierarchy.dendrogram(lnk1, ax=ax_dendtop,
+                                    color_threshold=top_threshold,
+                                    no_labels=True)
     else:
         dg1 = None
 
@@ -154,9 +157,9 @@ def heatmapcluster(x, row_labels, col_labels,
     ncols = len(col_labels)
     halfxw = 0.5*xlim/ncols
 
-    ax_heatmap.xaxis.set_ticks(np.linspace(halfxw, xlim - halfxw, ncols))
+    ax_heatmap.xaxis.set_ticks(_np.linspace(halfxw, xlim - halfxw, ncols))
     if top_dendrogram:
-        ax_heatmap.xaxis.set_ticklabels(np.array(col_labels)[dg1['leaves']])
+        ax_heatmap.xaxis.set_ticklabels(_np.array(col_labels)[dg1['leaves']])
     else:
         ax_heatmap.xaxis.set_ticklabels(col_labels)
 
@@ -164,14 +167,14 @@ def heatmapcluster(x, row_labels, col_labels,
     nrows = len(row_labels)
     halfyw = 0.5*ylim/nrows
 
-    ax_heatmap.yaxis.set_ticks(np.linspace(halfyw, ylim - halfyw, nrows))
-    ax_heatmap.yaxis.set_ticklabels(np.array(row_labels)[dg0['leaves']])
+    ax_heatmap.yaxis.set_ticks(_np.linspace(halfyw, ylim - halfyw, nrows))
+    ax_heatmap.yaxis.set_ticklabels(_np.array(row_labels)[dg0['leaves']])
 
     # Make the dendrogram labels invisible.
-    plt.setp(ax_dendleft.get_yticklabels() + ax_dendleft.get_xticklabels(),
+    _plt.setp(ax_dendleft.get_yticklabels() + ax_dendleft.get_xticklabels(),
              visible=False)
     if top_dendrogram:
-        plt.setp(ax_dendtop.get_xticklabels() + ax_dendtop.get_yticklabels(),
+        _plt.setp(ax_dendtop.get_xticklabels() + ax_dendtop.get_yticklabels(),
                  visible=False)
 
     # Hide all tick lines.
@@ -179,22 +182,22 @@ def heatmapcluster(x, row_labels, col_labels,
              ax_heatmap.yaxis.get_ticklines() +
              ax_dendleft.xaxis.get_ticklines() +
              ax_dendleft.yaxis.get_ticklines())
-    plt.setp(lines, visible=False)
+    _plt.setp(lines, visible=False)
     if top_dendrogram:
         lines = (ax_dendtop.xaxis.get_ticklines() +
                  ax_dendtop.yaxis.get_ticklines())
-        plt.setp(lines, visible=False)
+        _plt.setp(lines, visible=False)
 
     xlbls = ax_heatmap.xaxis.get_ticklabels()
-    plt.setp(xlbls, rotation=xlabel_rotation)
-    plt.setp(xlbls, fontsize=label_fontsize)
+    _plt.setp(xlbls, rotation=xlabel_rotation)
+    _plt.setp(xlbls, fontsize=label_fontsize)
 
     ylbls = ax_heatmap.yaxis.get_ticklabels()
-    plt.setp(ylbls, rotation=ylabel_rotation)
-    plt.setp(ylbls, fontsize=label_fontsize)
+    _plt.setp(ylbls, rotation=ylabel_rotation)
+    _plt.setp(ylbls, fontsize=label_fontsize)
 
     if show_colorbar:
-        cb = plt.colorbar(im, cax=ax_colorbar)
+        cb = _plt.colorbar(im, cax=ax_colorbar)
     else:
         cb = None
 
