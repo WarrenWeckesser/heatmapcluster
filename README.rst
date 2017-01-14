@@ -4,7 +4,7 @@ heatmapcluster
 `heatmapcluster` is a python library for generating a clustered heatmap
 with dendrograms plotted along with the heatmap, such as the following:
 
-.. image:: https://raw.githubusercontent.com/WarrenWeckesser/heatmapcluster/blob/master/demo/heatmapcluster_demo.png
+.. image:: https://raw.githubusercontent.com/WarrenWeckesser/heatmapcluster/master/demo/heatmapcluster_demo.png
    :alt: Example plot
    :align: center
 
