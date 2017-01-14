@@ -14,6 +14,8 @@ will likely change.
 Plots are generated with matplotlib (http://matplotlib.org/).
 To use the package, numpy, scipy and matplotlib must be installed.
 
+``setuptools`` is required to install the package using ``setup.py``.
+
 Example
 -------
 
