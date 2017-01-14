@@ -1,7 +1,7 @@
 heatmapcluster
 ==============
 
-`heatmapcluster` is a python library for generating a clustered heatmap
+``heatmapcluster`` is a python library for generating a clustered heatmap
 with dendrograms plotted along with the heatmap, such as the following:
 
 .. image:: https://raw.githubusercontent.com/WarrenWeckesser/heatmapcluster/master/demo/heatmapcluster_demo.png
@@ -17,7 +17,7 @@ To use the package, numpy, scipy and matplotlib must be installed.
 Example
 -------
 
-This is `heatmapcluster_demo.py`.  Most of the code is the function `make_data`,
+This is ``heatmapcluster_demo.py``.  Most of the code is the function ``make_data``,
 which generates an array of data for the demonstration.  The main part of the
 demo is the last three statements of the script.  This script generates the plot
 shown above::
