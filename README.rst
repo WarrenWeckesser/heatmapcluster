@@ -4,7 +4,9 @@ heatmapcluster
 `heatmapcluster` is a python library for generating a clustered heatmap
 with dendrograms plotted along with the heatmap, such as the following:
 
-![](https://github.com/WarrenWeckesser/heatmapcluster/blob/master/demo/heatmapcluster_demo.png)
+.. image:: https://raw.githubusercontent.com/WarrenWeckesser/heatmapcluster/blob/master/demo/heatmapcluster_demo.png
+   :alt: Example plot
+   :align: center
 
 This is prototype-quality software.  The documentation is sparse, and the API
 will likely change.
@@ -18,7 +20,7 @@ Example
 This is `heatmapcluster_demo.py`.  Most of the code is the function `make_data`,
 which generates an array of data for the demonstration.  The main part of the
 demo is the last three statements of the script.  This script generates the plot
-shown above.
+shown above::
 
     import numpy as np
     import matplotlib.pyplot as plt
