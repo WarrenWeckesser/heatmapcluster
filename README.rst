@@ -7,6 +7,7 @@ with dendrograms plotted along with the heatmap, such as the following:
 .. image:: https://raw.githubusercontent.com/WarrenWeckesser/heatmapcluster/master/demo/heatmapcluster_demo.png
    :alt: Example plot
    :align: center
+   :scale: 50 %
 
 This is prototype-quality software.  The documentation is sparse, and the API
 will likely change.
