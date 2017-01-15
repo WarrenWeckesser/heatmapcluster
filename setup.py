@@ -34,6 +34,7 @@ setup(name='heatmapcluster',
       author="Warren Weckesser",
       description="Heatmap cluster dendrogram plotter.",
       long_description=_long_description,
+      url="https://github.com/WarrenWeckesser/heatmapcluster",
       license="BSD",
       classifiers=[
           "License :: OSI Approved :: BSD License",
