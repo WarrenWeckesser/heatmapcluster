@@ -38,6 +38,7 @@ h = heatmapcluster(x, row_labels, col_labels,
                    row_linkage=lambda x: linkage(x, method='average',
                                                  metric='cityblock'),
                    col_linkage=lambda x: linkage(x.T, method='average',
-                                                 metric='cityblock'))
+                                                 metric='cityblock'),
+                   histogram=True)
 
 plt.show()

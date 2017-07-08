@@ -56,7 +56,8 @@ def heatmapcluster(x, row_labels, col_labels,
                    ylabel_rotation=0,
                    figsize=(12, 8),
                    row_linkage=None,
-                   col_linkage=None):
+                   col_linkage=None,
+                   histogram=None):
     """
     Use matplotlib to generate a heatmap with row and column dendrograms.
 
@@ -108,6 +109,9 @@ def heatmapcluster(x, row_labels, col_labels,
         single argument, `x`.  By default,
             `scipy.cluster.hierarchy(scipy.spatial.distance.pdist(x.T))`
         is used.  This parameter is ignored if `top_dendrogram` is False.
+    histogram : bool, optional
+        If `histogram` is True, a histogram of the values in `x` is drawn
+        in the colorbar.
 
     Return value
     ------------
@@ -147,7 +151,12 @@ def heatmapcluster(x, row_labels, col_labels,
         ax_dendtop = None
     if show_colorbar:
         # Add an axis on the right for the colorbar.
-        ax_colorbar = divider.append_axes("right", 0.2, pad=colorbar_pad)
+        if histogram:
+            colorbar_width = 0.45
+        else:
+            colorbar_width = 0.2
+        ax_colorbar = divider.append_axes("right", colorbar_width,
+                                          pad=colorbar_pad)
     else:
         ax_colorbar = None
 
@@ -239,6 +248,28 @@ def heatmapcluster(x, row_labels, col_labels,
 
     if show_colorbar:
         cb = _plt.colorbar(im, cax=ax_colorbar)
+        if histogram:
+            # This code to draw the histogram in the colorbar can
+            # probably be simplified.
+            # Also, there are several values that someone, sometime,
+            # will probably want to change, but for now, all the
+            # details are hardcoded.
+            nbins = min(80, max(int(x.size/10+0.5), 11))
+            counts, edges = _np.histogram(x.ravel(), bins=nbins)
+            max_count = counts.max()
+            counts = counts / max_count
+            edges = (edges - edges[0])/(edges[-1] - edges[0])
+            # cc and ee contain the values in counts and edges, repeated
+            # as needed to draw the histogram curve similar to the 'steps-mid'
+            # drawstyle of the plot function.
+            cc = _np.repeat(counts, 2)
+            ee = _np.r_[edges[0], _np.repeat(edges[1:-1], 2), edges[-1]]
+
+            ax_colorbar.plot(cc, ee, 'k', alpha=0.5)
+            ax_colorbar.xaxis.set_ticks([0, 1])
+            pctstr = '%.2g%%' % (100*max_count/x.size)
+            ax_colorbar.xaxis.set_ticklabels(['0', pctstr])
+            ax_colorbar.xaxis.set_label_text('Histogram\n(% count)')
     else:
         cb = None
 
