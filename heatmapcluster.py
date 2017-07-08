@@ -54,7 +54,9 @@ def heatmapcluster(x, row_labels, col_labels,
                    top_dendrogram=True,
                    xlabel_rotation=-45,
                    ylabel_rotation=0,
-                   figsize=(12, 8)):
+                   figsize=(12, 8),
+                   row_linkage=None,
+                   col_linkage=None):
     """
     Use matplotlib to generate a heatmap with row and column dendrograms.
 
@@ -94,6 +96,18 @@ def heatmapcluster(x, row_labels, col_labels,
         the heatmap.
     figsize : tuple of int
         Matplotlib figure size.
+    row_linkage : callable, optional
+        The linkage function for the row dendrogram (i.e. the dendrogram that
+        is on the left).  The function must be a callable that accepts a single
+        argument, `x`.  By default,
+            `scipy.cluster.hierarchy(scipy.spatial.distance.pdist(x))`
+        is used.
+    col_linkage : callable, optional
+        The linkage function for the column dendrogram (i.e. the dendrogram
+        that is on the top).  The function must be a callable that accepts a
+        single argument, `x`.  By default,
+            `scipy.cluster.hierarchy(scipy.spatial.distance.pdist(x.T))`
+        is used.  This parameter is ignored if `top_dendrogram` is False.
 
     Return value
     ------------
@@ -103,9 +117,15 @@ def heatmapcluster(x, row_labels, col_labels,
         plot.
 
     """
-    lnk0 = _hierarchy.linkage(_distance.pdist(x))
+    if row_linkage is None:
+        lnk0 = _hierarchy.linkage(_distance.pdist(x))
+    else:
+        lnk0 = row_linkage(x)
     if top_dendrogram:
-        lnk1 = _hierarchy.linkage(_distance.pdist(x.T))
+        if col_linkage is None:
+            lnk1 = _hierarchy.linkage(_distance.pdist(x.T))
+        else:
+            lnk1 = col_linkage(x)
     else:
         lnk1 = None
 

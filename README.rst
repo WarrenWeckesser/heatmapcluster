@@ -4,8 +4,8 @@ heatmapcluster
 ``heatmapcluster`` is a python library for generating a clustered heatmap
 with dendrograms plotted along with the heatmap, such as the following:
 
-.. image:: https://raw.githubusercontent.com/WarrenWeckesser/heatmapcluster/master/demo/heatmapcluster_demo.png
-   :alt: Example plot
+.. image:: https://raw.githubusercontent.com/WarrenWeckesser/heatmapcluster/master/demo/heatmapcluster_example1.png
+   :alt: Example 1 plot
    :align: center
    :scale: 50 %
 
@@ -17,13 +17,12 @@ To use the package, numpy, scipy and matplotlib must be installed.
 
 ``setuptools`` is required to install the package using ``setup.py``.
 
-Example
--------
+Example 1
+---------
 
-This is ``heatmapcluster_demo.py``.  Most of the code is the function ``make_data``,
-which generates an array of data for the demonstration.  The main part of the
-demo is the last three statements of the script.  This script generates the plot
-shown above::
+Most of the code in this example is the function ``make_data``, which generates
+an array of data for the demonstration.  The main part of the demo is the last
+three statements of the script.  This script generates the plot shown above::
 
     import numpy as np
     import matplotlib.pyplot as plt
@@ -61,3 +60,31 @@ shown above::
                        show_colorbar=True,
                        top_dendrogram=True)
     plt.show()
+
+
+Example 2
+---------
+
+This example uses the same data as in Example 1, but the linkage that is used
+to cluster the rows and columns is changed.  In this example, the clustering
+is the 'average' method of `scipy.cluster.hierarchy.linkage`, combined with
+the 'cityblock' metric.
+
+    from scipy.cluster.hierarchy import linkage
+
+    h = heatmapcluster(x, row_labels, col_labels,
+                       num_row_clusters=3, num_col_clusters=0,
+                       label_fontsize=6,
+                       xlabel_rotation=-75,
+                       cmap=plt.cm.coolwarm,
+                       show_colorbar=True,
+                       top_dendrogram=True,
+                       row_linkage=lambda x: linkage(x, method='average',
+                                                     metric='cityblock'),
+                       col_linkage=lambda x: linkage(x.T, method='average',
+                                                     metric='cityblock'))
+
+.. image:: https://raw.githubusercontent.com/WarrenWeckesser/heatmapcluster/master/demo/heatmapcluster_example2.png
+   :alt: Example 2 plot
+   :align: center
+   :scale: 50 %
