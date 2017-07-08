@@ -68,7 +68,9 @@ Example 2
 This example uses the same data as in Example 1, but the linkage that is used
 to cluster the rows and columns is changed.  In this example, the clustering
 is the 'average' method of `scipy.cluster.hierarchy.linkage`, combined with
-the 'cityblock' metric::
+the 'cityblock' metric.  This example also shows that when the option
+`histogram=True` is given, a histogram of the values in `x` is drawn in the
+colorbar::
 
     from scipy.cluster.hierarchy import linkage
 
@@ -82,7 +84,8 @@ the 'cityblock' metric::
                        row_linkage=lambda x: linkage(x, method='average',
                                                      metric='cityblock'),
                        col_linkage=lambda x: linkage(x.T, method='average',
-                                                     metric='cityblock'))
+                                                     metric='cityblock'),
+                       histogram=True)
 
 .. image:: https://raw.githubusercontent.com/WarrenWeckesser/heatmapcluster/master/demo/heatmapcluster_example2.png
    :alt: Example 2 plot
