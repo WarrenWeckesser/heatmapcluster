@@ -68,7 +68,7 @@ Example 2
 This example uses the same data as in Example 1, but the linkage that is used
 to cluster the rows and columns is changed.  In this example, the clustering
 is the 'average' method of `scipy.cluster.hierarchy.linkage`, combined with
-the 'cityblock' metric.
+the 'cityblock' metric::
 
     from scipy.cluster.hierarchy import linkage
 
