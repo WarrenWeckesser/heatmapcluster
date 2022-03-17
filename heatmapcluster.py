@@ -33,7 +33,7 @@ import matplotlib.pyplot as _plt
 from mpl_toolkits import axes_grid1 as _axes_grid1
 
 
-__version__ = "0.1.3.dev0"
+__version__ = "0.1.3.dev1"
 
 _scipy_version = tuple(int(v) for v in _scipy__version__.split('.')[:2])
 
@@ -266,8 +266,12 @@ def heatmapcluster(x, row_labels, col_labels,
             cc = _np.repeat(counts, 2)
             ee = _np.r_[edges[0], _np.repeat(edges[1:-1], 2), edges[-1]]
 
-            ax_colorbar.plot(cc, ee, 'k', alpha=0.5)
-            ax_colorbar.xaxis.set_ticks([0, 1])
+            cb_xmin, cb_xmax = ax_colorbar.get_xbound()
+            cb_ymin, cb_ymax = ax_colorbar.get_ybound()
+            ax_colorbar.plot(cb_xmin + (cb_xmax - cb_xmin)*cc,
+                             cb_ymin + (cb_ymax - cb_ymin)*ee,
+                             'k', alpha=0.5)
+            ax_colorbar.xaxis.set_ticks([cb_xmin, cb_xmax])
             pctstr = '%.2g%%' % (100*max_count/x.size)
             ax_colorbar.xaxis.set_ticklabels(['0', pctstr])
             ax_colorbar.xaxis.set_label_text('Histogram\n(% count)')
